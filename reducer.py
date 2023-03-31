@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 import sys
 
-total_flight = 0
 current_id = ""
+current_flight = 0
+
+id_max = ""
+flight_max = 0
 
 for line in sys.stdin:
     key, value = line.strip().split()
@@ -13,13 +16,13 @@ for line in sys.stdin:
         continue
 
     if current_id == key:
-        total_flight += value
+        current_flight += value
+        if current_flight > flight_max:
+            flight_max = current_flight
+            id_max = current_id
     
-    else:
-        if current_id:
-            print ('%s\t%d' % (current_id, total_flight))
-        total_flight = value
+    else:        
+        current_flight = value
         current_id = key
 
-if current_id == key:
-    print ('%s\t%d' % (current_id, total_flight))
+print ('%s\t%d' % (id_max, flight_max))
