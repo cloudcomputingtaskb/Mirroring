@@ -1,7 +1,9 @@
 import sys
-
+# 
 for line in sys.stdin:
-    line = line.strip()
-    words = line.split()
+    #
+    words = line.strip().split()
+    #
     for word in words:
-        print(word, 1)
+        #
+        print ('%s\t%s' % (word, 1))
