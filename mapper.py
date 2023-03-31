@@ -1,9 +1,7 @@
+#!/usr/bin/env python
 import sys
-# 
+
 for line in sys.stdin:
-    #
-    words = line.strip().split(',')
-    #
-    for word in words:
-        #
-        print ('%s\t%s' % (word, 1))
+    item = line.strip().split(',')
+    passenger_id = item[0]
+    print('%s\t%s', passenger_id, 1)
