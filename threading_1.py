@@ -2,11 +2,14 @@ import multiprocessing as mp
 from module import mapper, reducer, shuffler
 
 def main():
-    with open("C:\AComp_Passenger_data_no_error.csv", encoding="utf8") as f:
-        input_mapper = f.read().splitlines()
+    # input file path
+    filepath = ".\AComp_Passenger_data_no_error.csv"
+
+    # Assigning input of mapper as list of each line
+    with open(filepath, encoding="utf8") as file:
+        input_mapper = file.read().splitlines()
 
     with mp.Pool(processes=mp.cpu_count()) as pool:
-        # Using standard IO as input of mapper
 
         output_mapper = pool.map(mapper, input_mapper, chunksize=int(len(input_mapper)/mp.cpu_count()))
         
