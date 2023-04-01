@@ -1,18 +1,17 @@
 # --- mapper function ---
 # Input  : line of chunk
-# Output : [key, value] - list
-#          [[passenger_id, 1], [], ...] in this case
+# Output : [(key, value)] - list of tuple
 def mapper(line):
     output_mapper = []
     item = line.strip().split(',')
     # When ID is located in the First column
     id_ = item[0]
-    output_mapper.append([id_, 1])
+    output_mapper.append((id_, 1))
     return output_mapper
 
 # --- shuffler function ---
-# Input  : kv pairs in output of mappers (list of lists)
-# Output : {key: [values]} - dictionary
+# Input  : kv pairs in output of mappers (list of tuples)
+# Output : {index of reducer: [(key, value), (key, value), ...]} - dictionary
 def shuffler(kv_pairs, num_reducers):
     # Create a dictionary of lists
     # Each list stores key and corresponding values
@@ -35,8 +34,8 @@ def shuffler(kv_pairs, num_reducers):
     return shuffled_dict
 
 # --- reducer function ---
-# Input  : 
-# Output : {key: value} - dictionary
+# Input  : shuffled list of key-value pairs
+# Output : [(key: values)] - list of tuple
 def reducer(shuffled_data):
     key = None
 
@@ -52,11 +51,11 @@ def reducer(shuffled_data):
             current_value += value
         else:
             if current_key:
-                reduced_list.append([current_key, current_value])
+                reduced_list.append((current_key, current_value))
             current_key = key
             current_value = value
 
     if current_key == key:
-        reduced_list.append([current_key, current_value])
+        reduced_list.append((current_key, current_value))
 
     return (reduced_list)
