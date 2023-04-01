@@ -15,9 +15,13 @@ def main():
         # Chunking to distribute input data to each processor as well
         output_mapper = pool.map(mapper, input_mapper, chunksize=int(len(input_mapper)/mp.cpu_count()))
         
-        input_reducer = shuffler(output_mapper)
+        num_reducer = mp.cpu_count()
+
+        shuffled_data = shuffler(output_mapper, num_reducer)
         
-        output_reducer = pool.map(reducer, input_reducer.items(), chunksize=int(len(input_reducer.keys())/mp.cpu_count()))
+        # Unpack shuffled_data from dictionary to list for iteration
+        input_reducer = [shuffled_data[i] for i in range(num_reducer)]
+        output_reducer = pool.map(reducer, input_reducer)
 
         print(output_reducer)
         
